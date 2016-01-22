@@ -21,8 +21,8 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
-    Layout.minimumHeight: (units.iconSizes.medium + 15) * currentModel.count + 5
     Layout.minimumWidth: widgetWidth
+    Layout.minimumHeight: (units.iconSizes.medium + 15) * currentModel.count - 5
 
     Layout.preferredWidth: Layout.minimumWidth
     Layout.preferredHeight: Layout.minimumHeight
@@ -60,7 +60,7 @@ Item {
         } else if (!showHidden) {
             return placesHiddenFilterModel
         } else if (!showDevices) {
-            return placesDevicesFilterModel
+            return placesDeviceFilterModel
         } else {
             return placesSource.models.places
         }
