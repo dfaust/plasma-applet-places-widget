@@ -83,9 +83,11 @@ Item {
             delegate: Item {
                 id: placeItem
                 width: parent.width
-                height: container.childrenRect.height + 10
+                height: units.iconSizes.medium + 10
 
                 property bool isHovered: false
+                property bool isEjectHovered: false
+                property var message: ''
 
                 MouseArea {
                     id: container
@@ -101,7 +103,21 @@ Item {
                     }
 
                     onClicked: {
-                        Qt.openUrlExternally(model['url'])
+                        if (model['url'] == '') {
+                            var service = placesSource.serviceForSource('places')
+                            var operation = service.operationDescription('Setup Device')
+                            operation.id = model['id']
+                            var serviceJob = service.startOperationCall(operation)
+                            serviceJob.finished.connect(function (job) {
+                                if (!job.error) {
+                                    Qt.openUrlExternally(model['url'])
+                                } else {
+                                    message = 'Failed to mount device'
+                                }
+                            })
+                        } else {
+                            Qt.openUrlExternally(model['url'])
+                        }
                     }
 
                     RowLayout {
@@ -112,6 +128,7 @@ Item {
                             source: model['decoration']
                             height: units.iconSizes.medium
                             width: height
+                            active: isHovered
                         }
 
                         ColumnLayout {
@@ -121,11 +138,47 @@ Item {
                                 text: model['display']
                             }
                             PlasmaComponents.Label {
-                                text: model['url'].toString().replace('file://', '')
+                                text: message ? message : model['url'].toString().replace('file://', '')
                                 font.pointSize: theme.smallestFont.pointSize
                                 opacity: isHovered ? 1.0 : 0.6
 
                                 Behavior on opacity { NumberAnimation { duration: units.shortDuration * 3 } }
+                            }
+                        }
+                    }
+
+                    PlasmaCore.IconItem {
+                        source: 'media-eject'
+                        height: units.iconSizes.medium
+                        width: height
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        active: isEjectHovered
+                        visible: (model['fixedDevice'] === false && model['url'] != '' && isHovered)
+
+                        MouseArea {
+                            anchors.fill: parent
+
+                            hoverEnabled: true
+                            onEntered: {
+                                isEjectHovered = true
+                            }
+                            onExited: {
+                                isEjectHovered = false
+                            }
+
+                            onClicked: {
+                                var service = placesSource.serviceForSource('places')
+                                var operation = service.operationDescription('Teardown Device')
+                                operation.id = model['id']
+                                var serviceJob = service.startOperationCall(operation)
+                                serviceJob.finished.connect(function (job) {
+                                    if (!job.error) {
+                                        message = 'This device is now safe to remove'
+                                    } else {
+                                        message = 'Failed to eject device'
+                                    }
+                                })
                             }
                         }
                     }
