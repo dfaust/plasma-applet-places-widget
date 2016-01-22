@@ -12,6 +12,9 @@
         <entry name="showDevices" type="bool">
             <default>true</default>
         </entry>
+        <entry name="widgetWidth" type="int">
+            <default>200</default>
+        </entry>
     </group>
     
 </kcfg>

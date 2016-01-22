@@ -21,8 +21,8 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
-    Layout.minimumWidth: 200
     Layout.minimumHeight: (units.iconSizes.medium + 15) * currentModel.count + 5
+    Layout.minimumWidth: widgetWidth
 
     Layout.preferredWidth: Layout.minimumWidth
     Layout.preferredHeight: Layout.minimumHeight
@@ -153,6 +153,7 @@ Item {
                         width: height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
+                        anchors.rightMargin: 5
                         active: isEjectHovered
                         visible: (model['fixedDevice'] === false && model['url'] != '' && isHovered)
 

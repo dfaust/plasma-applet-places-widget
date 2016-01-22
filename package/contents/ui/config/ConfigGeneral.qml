@@ -21,6 +21,7 @@ import QtQuick.Layouts 1.1
 Item {
     property alias cfg_showHidden: showHidden.checked
     property alias cfg_showDevices: showDevices.checked
+    property alias cfg_widgetWidth: widgetWidth.value
 
     GridLayout {
         columns: 2
@@ -35,6 +36,19 @@ Item {
             id: showDevices
             text: i18n('Show devices')
             Layout.columnSpan: 2
+        }
+
+        Label {
+            text: i18n('Widget width')
+        }
+
+        SpinBox {
+            id: widgetWidth
+            minimumValue: units.iconSizes.medium + 10
+            maximumValue: 1000
+            decimals: 0
+            stepSize: 10
+            suffix: ' px'
         }
     }
 }

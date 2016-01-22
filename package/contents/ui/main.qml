@@ -21,6 +21,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     property bool showHidden: plasmoid.configuration.showHidden
     property bool showDevices: plasmoid.configuration.showDevices
+    property int widgetWidth: plasmoid.configuration.widgetWidth
 
     Plasmoid.compactRepresentation: PlasmaCore.IconItem {
         source: 'folder-favorites'
