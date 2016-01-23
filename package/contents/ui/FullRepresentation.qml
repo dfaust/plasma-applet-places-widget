@@ -22,7 +22,10 @@ import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
     Layout.minimumWidth: widgetWidth
-    Layout.minimumHeight: (units.iconSizes.medium + 15) * currentModel.count - 5
+    Layout.minimumHeight: (units.iconSizes.medium + 15) * listView.count - 5
+
+    Layout.maximumWidth: Layout.minimumWidth
+    Layout.maximumHeight: Layout.minimumHeight
 
     Layout.preferredWidth: Layout.minimumWidth
     Layout.preferredHeight: Layout.minimumHeight
