@@ -35,7 +35,7 @@ Item {
         engine: 'places'
         connectedSources: 'places'
     }
-    
+
     PlasmaCore.SortFilterModel {
         id: placesHiddenFilterModel
         sourceModel: placesSource.models.places
@@ -152,7 +152,7 @@ Item {
 
                     PlasmaCore.IconItem {
                         source: 'media-eject'
-                        height: units.iconSizes.medium
+                        height: units.iconSizes.medium * 0.8
                         width: height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter

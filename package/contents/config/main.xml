@@ -13,7 +13,7 @@
             <default>true</default>
         </entry>
         <entry name="widgetWidth" type="int">
-            <default>200</default>
+            <default>250</default>
         </entry>
     </group>
     
