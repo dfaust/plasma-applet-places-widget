@@ -90,7 +90,6 @@ Item {
 
                 property bool isHovered: false
                 property bool isEjectHovered: false
-                property var message: ''
 
                 MouseArea {
                     id: container
@@ -114,8 +113,6 @@ Item {
                             serviceJob.finished.connect(function (job) {
                                 if (!job.error) {
                                     Qt.openUrlExternally(model['url'])
-                                } else {
-                                    message = 'Failed to mount device'
                                 }
                             })
                         } else {
@@ -141,7 +138,7 @@ Item {
                                 text: model['display']
                             }
                             PlasmaComponents.Label {
-                                text: message ? message : model['url'].toString().replace('file://', '')
+                                text: model['url'].toString().replace('file://', '')
                                 font.pointSize: theme.smallestFont.pointSize
                                 opacity: isHovered ? 1.0 : 0.6
 
@@ -175,14 +172,7 @@ Item {
                                 var service = placesSource.serviceForSource('places')
                                 var operation = service.operationDescription('Teardown Device')
                                 operation.id = model['id']
-                                var serviceJob = service.startOperationCall(operation)
-                                serviceJob.finished.connect(function (job) {
-                                    if (!job.error) {
-                                        message = 'This device is now safe to remove'
-                                    } else {
-                                        message = 'Failed to eject device'
-                                    }
-                                })
+                                service.startOperationCall(operation)
                             }
                         }
                     }
