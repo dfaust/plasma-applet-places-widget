@@ -108,7 +108,7 @@ Item {
                         if (model['url'] == '') {
                             var service = placesSource.serviceForSource('places')
                             var operation = service.operationDescription('Setup Device')
-                            operation.id = model['id']
+                            operation.placeIndex = model['placeIndex']
                             var serviceJob = service.startOperationCall(operation)
                             serviceJob.finished.connect(function (job) {
                                 if (!job.error) {
@@ -171,7 +171,7 @@ Item {
                             onClicked: {
                                 var service = placesSource.serviceForSource('places')
                                 var operation = service.operationDescription('Teardown Device')
-                                operation.id = model['id']
+                                operation.placeIndex = model['placeIndex']
                                 service.startOperationCall(operation)
                             }
                         }
