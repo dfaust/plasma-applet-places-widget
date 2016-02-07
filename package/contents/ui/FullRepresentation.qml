@@ -155,7 +155,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.rightMargin: 5
                         active: isEjectHovered
-                        visible: (model['fixedDevice'] === false && model['url'] != '' && isHovered)
+                        visible: (model['isDevice'] === true && model['url'] != '' && isHovered)
 
                         MouseArea {
                             anchors.fill: parent
