@@ -124,11 +124,15 @@ Item {
                         x: 5
                         y: 5
 
-                        PlasmaCore.IconItem {
-                            source: model['decoration']
+                        Item { // Hack - since setting the dimensions of PlasmaCore.IconItem won't work
                             height: units.iconSizes.medium
                             width: height
-                            active: isHovered
+
+                            PlasmaCore.IconItem {
+                                anchors.fill: parent
+                                source: model['decoration']
+                                active: isHovered
+                            }
                         }
 
                         ColumnLayout {
