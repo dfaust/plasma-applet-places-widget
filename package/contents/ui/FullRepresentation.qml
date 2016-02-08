@@ -21,8 +21,10 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
+    property var mediumSpacing: 1.5*units.smallSpacing
+
     Layout.minimumWidth: widgetWidth
-    Layout.minimumHeight: (units.iconSizes.medium + 15) * listView.count - 5
+    Layout.minimumHeight: (units.iconSizes.medium + 2*mediumSpacing) * listView.count
 
     Layout.maximumWidth: Layout.minimumWidth
     Layout.maximumHeight: Layout.minimumHeight
@@ -75,7 +77,6 @@ Item {
         ListView {
             id: listView
             anchors.fill: parent
-            spacing: 5
 
             model: currentModel
 
@@ -86,7 +87,7 @@ Item {
             delegate: Item {
                 id: placeItem
                 width: parent.width
-                height: units.iconSizes.medium + 10
+                height: units.iconSizes.medium + 2*mediumSpacing
 
                 property bool isHovered: false
                 property bool isEjectHovered: false
@@ -121,8 +122,9 @@ Item {
                     }
 
                     RowLayout {
-                        x: 5
-                        y: 5
+                        x: mediumSpacing
+                        y: mediumSpacing
+                        spacing: mediumSpacing
 
                         Item { // Hack - since setting the dimensions of PlasmaCore.IconItem won't work
                             height: units.iconSizes.medium
@@ -157,7 +159,7 @@ Item {
                         width: height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.rightMargin: 5
+                        anchors.rightMargin: mediumSpacing
                         active: isEjectHovered
                         visible: (model['isDevice'] === true && model['url'] != '' && isHovered)
 
