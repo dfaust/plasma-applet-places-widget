@@ -113,10 +113,12 @@ Item {
                             var serviceJob = service.startOperationCall(operation)
                             serviceJob.finished.connect(function (job) {
                                 if (!job.error) {
+                                    plasmoid.expanded = false
                                     Qt.openUrlExternally(model['url'])
                                 }
                             })
                         } else {
+                            plasmoid.expanded = false
                             Qt.openUrlExternally(model['url'])
                         }
                     }
