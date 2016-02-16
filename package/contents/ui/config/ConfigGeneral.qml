@@ -23,6 +23,8 @@ Item {
     property alias cfg_showDevices: showDevices.checked
     property alias cfg_widgetWidth: widgetWidth.value
 
+    property var mediumSpacing: 1.5*units.smallSpacing
+
     GridLayout {
         columns: 2
 
@@ -39,12 +41,12 @@ Item {
         }
 
         Label {
-            text: i18n('Widget width')
+            text: i18n('Widget width:')
         }
 
         SpinBox {
             id: widgetWidth
-            minimumValue: units.iconSizes.medium + 10
+            minimumValue: units.iconSizes.medium + 2*mediumSpacing
             maximumValue: 1000
             decimals: 0
             stepSize: 10
