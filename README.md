@@ -3,11 +3,11 @@ Plasma 5 widget that gives access to user places
 
 ![Screen shot of plasma-applet-places-widget](places-widget.png)
 
-# Depends on
+## Depends on
 plasma-workspace >= 5.6  
 plasma-framework-devel
 
-# Installation
+## Installation
 ```
 git clone https://github.com/HessiJames/plasma-applet-places-widget
 cd plasma-applet-places-widget
