@@ -21,10 +21,12 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
 Item {
-    property var mediumSpacing: 1.5*units.smallSpacing
+    property real mediumSpacing: 1.5*units.smallSpacing
+    property real textHeight: theme.defaultFont.pixelSize + theme.smallestFont.pixelSize + units.smallSpacing
+    property real itemHeight: Math.max(units.iconSizes.medium, textHeight)
 
     Layout.minimumWidth: widgetWidth
-    Layout.minimumHeight: (units.iconSizes.medium + 2*mediumSpacing) * listView.count
+    Layout.minimumHeight: (itemHeight + 2*mediumSpacing) * listView.count
 
     Layout.maximumWidth: Layout.minimumWidth
     Layout.maximumHeight: Layout.minimumHeight
@@ -87,16 +89,15 @@ Item {
             delegate: Item {
                 id: placeItem
                 width: parent.width
-                height: units.iconSizes.medium + 2*mediumSpacing
+                height: itemHeight + 2*mediumSpacing
 
                 property bool isHovered: false
                 property bool isEjectHovered: false
 
                 MouseArea {
-                    id: container
                     anchors.fill: parent
-
                     hoverEnabled: true
+
                     onEntered: {
                         listView.currentIndex = index
                         isHovered = true
@@ -104,7 +105,6 @@ Item {
                     onExited: {
                         isHovered = false
                     }
-
                     onClicked: {
                         if (model['url'] == '') {
                             var service = placesSource.serviceForSource('places')
@@ -123,14 +123,17 @@ Item {
                         }
                     }
 
-                    RowLayout {
+                    Row {
                         x: mediumSpacing
                         y: mediumSpacing
+                        width: parent.width - 2*mediumSpacing
+                        height: itemHeight
                         spacing: mediumSpacing
 
                         Item { // Hack - since setting the dimensions of PlasmaCore.IconItem won't work
                             height: units.iconSizes.medium
                             width: height
+                            anchors.verticalCenter: parent.verticalCenter
 
                             PlasmaCore.IconItem {
                                 anchors.fill: parent
@@ -139,16 +142,29 @@ Item {
                             }
                         }
 
-                        ColumnLayout {
+                        Column {
+                            width: parent.width - units.iconSizes.medium - mediumSpacing
+                            height: textHeight
                             spacing: 0
+                            anchors.verticalCenter: parent.verticalCenter
 
                             PlasmaComponents.Label {
                                 text: model['display']
+                                width: parent.width
+                                height: theme.defaultFont.pixelSize
+                                elide: Text.ElideRight
+                            }
+                            Item {
+                                width: 1
+                                height: units.smallSpacing
                             }
                             PlasmaComponents.Label {
                                 text: model['url'].toString().replace('file://', '')
                                 font.pointSize: theme.smallestFont.pointSize
                                 opacity: isHovered ? 1.0 : 0.6
+                                width: parent.width
+                                height: theme.smallestFont.pixelSize
+                                elide: Text.ElideRight
 
                                 Behavior on opacity { NumberAnimation { duration: units.shortDuration * 3 } }
                             }
@@ -167,15 +183,14 @@ Item {
 
                         MouseArea {
                             anchors.fill: parent
-
                             hoverEnabled: true
+
                             onEntered: {
                                 isEjectHovered = true
                             }
                             onExited: {
                                 isEjectHovered = false
                             }
-
                             onClicked: {
                                 var service = placesSource.serviceForSource('places')
                                 var operation = service.operationDescription('Teardown Device')
