@@ -87,7 +87,6 @@ Item {
             highlightResizeDuration: 0
 
             delegate: Item {
-                id: placeItem
                 width: parent.width
                 height: itemHeight + 2*mediumSpacing
 
@@ -143,7 +142,7 @@ Item {
                         }
 
                         Column {
-                            width: parent.width - units.iconSizes.medium - mediumSpacing
+                            width: ejectIcon.visible ? parent.width - units.iconSizes.medium * 1.8 - mediumSpacing : parent.width - units.iconSizes.medium - mediumSpacing
                             height: textHeight
                             spacing: 0
                             anchors.verticalCenter: parent.verticalCenter
@@ -172,6 +171,7 @@ Item {
                     }
 
                     PlasmaCore.IconItem {
+                        id: ejectIcon
                         source: 'media-eject'
                         height: units.iconSizes.medium * 0.8
                         width: height
