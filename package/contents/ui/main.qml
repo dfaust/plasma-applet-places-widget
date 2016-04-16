@@ -27,9 +27,13 @@ Item {
         source: 'folder-favorites'
         width: units.iconSizes.medium
         height: units.iconSizes.medium
+        active: mouseArea.containsMouse
+
         MouseArea {
+            id: mouseArea
             anchors.fill: parent
             onClicked: plasmoid.expanded = !plasmoid.expanded
+            hoverEnabled: true
         }
     }
 
