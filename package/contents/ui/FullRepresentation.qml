@@ -108,11 +108,11 @@ Item {
                     value: true
                 }
                 ValueFilter {
-                    roleName: 'fixedDevice"
+                    roleName: 'fixedDevice'
                     value: false
                 }
                 ValueFilter {
-                    roleName: 'fixedDevice"
+                    roleName: 'fixedDevice'
                     value: null
                 }
                 RegExpFilter {
