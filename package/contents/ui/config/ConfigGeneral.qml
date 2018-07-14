@@ -20,7 +20,9 @@ import QtQuick.Layouts 1.1
 
 Item {
     property alias cfg_showHidden: showHidden.checked
-    property alias cfg_showDevices: showDevices.checked
+    property alias cfg_showTimeline: showTimeline.checked
+    property alias cfg_showSearch: showSearch.checked
+    property alias cfg_showDevices: showDevices.currentIndex
     property alias cfg_widgetWidth: widgetWidth.value
 
     property var mediumSpacing: 1.5*units.smallSpacing
@@ -33,11 +35,26 @@ Item {
             text: i18n('Show hidden places')
             Layout.columnSpan: 2
         }
-
+        
         CheckBox {
-            id: showDevices
-            text: i18n('Show devices')
+            id: showTimeline
+            text: i18n('Show Timeline places')
             Layout.columnSpan: 2
+        }
+        
+        CheckBox {
+            id: showSearch
+            text: i18n('Show Search places')
+            Layout.columnSpan: 2
+        }
+
+        Label {
+            text: i18n('Show devices')
+        }
+        
+        ComboBox {
+            id: showDevices
+            model: [i18n('All'), i18n('None'), i18n('Only those not present in fstab')]
         }
 
         Label {

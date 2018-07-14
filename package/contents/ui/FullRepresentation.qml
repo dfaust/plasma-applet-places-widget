@@ -41,36 +41,94 @@ Item {
     }
 
     PlasmaCore.SortFilterModel {
-        id: placesHiddenFilterModel
+        id: placesNoHidden
         sourceModel: placesSource.models.places
         filterRole: 'hidden'
         filterRegExp: 'false'
     }
-
-    PlasmaCore.SortFilterModel {
-        id: placesDeviceFilterModel
-        sourceModel: placesSource.models.places
-        filterRole: 'isDevice'
-        filterRegExp: 'false'
-    }
-
-    PlasmaCore.SortFilterModel {
-        id: placesHiddenDevicesFilterModel
-        sourceModel: placesHiddenFilterModel
-        filterRole: 'isDevice'
-        filterRegExp: 'false'
-    }
-
-    property var currentModel: {
-        if (!showHidden && !showDevices) {
-            return placesHiddenDevicesFilterModel
-        } else if (!showHidden) {
-            return placesHiddenFilterModel
-        } else if (!showDevices) {
-            return placesDeviceFilterModel
-        } else {
+    
+    property var placesMaybeHidden {
+        if (showHidden) {
             return placesSource.models.places
+        } else {
+            return placesNoHidden
         }
+    }
+
+    PlasmaCore.SortFilterModel {
+        id: placesNoTimeline
+        sourceModel: placesMaybeHidden
+        filterRole: 'url'
+        filterRegExp: '^(?!timeline:).*$'
+    }
+    
+    property var placesMaybeTimeline {
+        if (showTimeline) {
+            return placesMaybeHidden
+        } else {
+            return placesNoTimeline
+        }
+    }
+    
+    PlasmaCore.SortFilterModel {
+        id: placesNoSearch
+        sourceModel: placesMaybeTimeline
+        filterRole: 'url'
+        filterRegExp: '^(?!search:).*$'
+    }
+    
+    property var placesMaybeSearch {
+        if (showSearch) {
+            return placesMaybeTimeline
+        } else {
+            return placesNoSearch
+        }
+    }
+    
+    
+    PlasmaCore.SortFilterModel {
+        id: placesNoDevice
+        sourceModel: placesMaybeSearch
+        filterRole: 'isDevice'
+        filterRegExp: 'false'
+    }
+    
+    PlasmaCore.SortFilterModel {
+        id: placesNoFstabDevice
+        sourceModel: placesMaybeSearch
+        
+        filters: [
+            AnyOf {
+                ValueFilter {
+                    roleName: 'isDevice'
+                    value: false
+                }
+                ValueFilter {
+                    roleName: 'setupNeeded'
+                    value: true
+                }
+                RegExpFilter {
+                    roleName: 'path'
+                    pattern: '^/media/.*$'
+                }
+            }
+        ]
+    }
+    
+    
+    property var placesMaybeDevice {
+        if (showDevice == 1) {
+            return placesNoDevice
+        } else if (showDevice == 2) {
+            return placesNoFstabDevice
+        } else {
+            return placesMaybeSearch
+        }
+    }
+
+    
+    property var currentModel: {
+        return placesMaybeDevice
     }
 
     PlasmaExtras.ScrollArea {
