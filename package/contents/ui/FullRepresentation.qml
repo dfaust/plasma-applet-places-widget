@@ -107,6 +107,14 @@ Item {
                     roleName: 'setupNeeded'
                     value: true
                 }
+                ValueFilter {
+                    roleName: 'fixedDevice"
+                    value: false
+                }
+                ValueFilter {
+                    roleName: 'fixedDevice"
+                    value: null
+                }
                 RegExpFilter {
                     roleName: 'path'
                     pattern: '^/media/.*$'
