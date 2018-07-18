@@ -47,7 +47,7 @@ Item {
         filterRegExp: 'false'
     }
     
-    property var placesMaybeHidden {
+    property var placesMaybeHidden : {
         if (showHidden) {
             return placesSource.models.places
         } else {
@@ -62,7 +62,7 @@ Item {
         filterRegExp: '^(?!timeline:).*$'
     }
     
-    property var placesMaybeTimeline {
+    property var placesMaybeTimeline : {
         if (showTimeline) {
             return placesMaybeHidden
         } else {
@@ -77,7 +77,7 @@ Item {
         filterRegExp: '^(?!search:).*$'
     }
     
-    property var placesMaybeSearch {
+    property var placesMaybeSearch : {
         if (showSearch) {
             return placesMaybeTimeline
         } else {
@@ -123,14 +123,15 @@ Item {
         ]
     }
     
-    
-    property var placesMaybeDevice {
+    property var placesMaybeDevice  : {
         if (showDevice == 1) {
             return placesNoDevice
-        } else if (showDevice == 2) {
-            return placesNoFstabDevice
         } else {
-            return placesMaybeSearch
+            if (showDevice == 2) {
+                return placesNoFstabDevice
+            } else {
+                return placesMaybeSearch
+            }
         }
     }
 
