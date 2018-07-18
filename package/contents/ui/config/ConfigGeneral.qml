@@ -54,7 +54,7 @@ Item {
         
         ComboBox {
             id: showDevices
-            model: [i18n('All'), i18n('None'), i18n('Only those not present in fstab')]
+            model: [{text: i18n('All'), value:0}, {text: i18n('None'), value:1}, {text: i18n('Only those not present in fstab'), value:2}]
         }
 
         Label {
