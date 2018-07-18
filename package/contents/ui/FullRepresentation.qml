@@ -16,7 +16,7 @@
  */
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.core 2.1 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
@@ -96,31 +96,19 @@ Item {
     PlasmaCore.SortFilterModel {
         id: placesNoFstabDevice
         sourceModel: placesMaybeSearch
-        
-        filters: [
-            AnyOf {
-                ValueFilter {
-                    roleName: 'isDevice'
-                    value: false
-                }
-                ValueFilter {
-                    roleName: 'setupNeeded'
-                    value: true
-                }
-                ValueFilter {
-                    roleName: 'fixedDevice'
-                    value: false
-                }
-                ValueFilter {
-                    roleName: 'fixedDevice'
-                    value: null
-                }
-                RegExpFilter {
-                    roleName: 'path'
-                    pattern: '^/media/.*$'
-                }
+        filterRole : 'path'
+        filterCallback:
+            function pasFstab(source_row, value) {
+                var idx = sourceModel.index(source_row, 0);
+                return source_row["isDevice"] == "false"
+                    || source_row["setupNeeded"] == "true"
+                    || source_row["fixedDevice"] == "false"
+                    || source_row["path"].substring(0, 7) != "/media/";
+                /*return sourceModel.data(idx, sourceModel.role("isDevice")) == "false"
+                        || sourceModel.data(idx, sourceModel.role("setupNeeded")) == "true"
+                        || sourceModel.data(idx, sourceModel.role("fixedDevice")) == "false"
+                        || sourceModel.data(idx, sourceModel.role("path")).substring(0, 7) != "/media/";*/
             }
-        ]
     }
     
     property var placesMaybeDevice  : {
