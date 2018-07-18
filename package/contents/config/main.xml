@@ -9,8 +9,14 @@
         <entry name="showHidden" type="bool">
             <default>false</default>
         </entry>
-        <entry name="showDevices" type="bool">
+        <entry name="showTimeline" type="bool">
             <default>true</default>
+        </entry>
+        <entry name="showSearch" type="bool">
+            <default>true</default>
+        </entry>
+        <entry name="showDevices" type="int">
+            <default>0</default>
         </entry>
         <entry name="widgetWidth" type="int">
             <default>250</default>

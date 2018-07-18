@@ -16,7 +16,7 @@
  */
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.core 2.1 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0 as PlasmaExtras
 
@@ -41,36 +41,91 @@ Item {
     }
 
     PlasmaCore.SortFilterModel {
-        id: placesHiddenFilterModel
+        id: placesNoHidden
         sourceModel: placesSource.models.places
         filterRole: 'hidden'
         filterRegExp: 'false'
     }
-
-    PlasmaCore.SortFilterModel {
-        id: placesDeviceFilterModel
-        sourceModel: placesSource.models.places
-        filterRole: 'isDevice'
-        filterRegExp: 'false'
-    }
-
-    PlasmaCore.SortFilterModel {
-        id: placesHiddenDevicesFilterModel
-        sourceModel: placesHiddenFilterModel
-        filterRole: 'isDevice'
-        filterRegExp: 'false'
-    }
-
-    property var currentModel: {
-        if (!showHidden && !showDevices) {
-            return placesHiddenDevicesFilterModel
-        } else if (!showHidden) {
-            return placesHiddenFilterModel
-        } else if (!showDevices) {
-            return placesDeviceFilterModel
-        } else {
+    
+    property var placesMaybeHidden : {
+        if (showHidden) {
             return placesSource.models.places
+        } else {
+            return placesNoHidden
         }
+    }
+
+    PlasmaCore.SortFilterModel {
+        id: placesNoTimeline
+        sourceModel: placesMaybeHidden
+        filterRole: 'url'
+        filterRegExp: '^(?!timeline:).*$'
+    }
+    
+    property var placesMaybeTimeline : {
+        if (showTimeline) {
+            return placesMaybeHidden
+        } else {
+            return placesNoTimeline
+        }
+    }
+    
+    PlasmaCore.SortFilterModel {
+        id: placesNoSearch
+        sourceModel: placesMaybeTimeline
+        filterRole: 'url'
+        filterRegExp: '^(?!search:).*$'
+    }
+    
+    property var placesMaybeSearch : {
+        if (showSearch) {
+            return placesMaybeTimeline
+        } else {
+            return placesNoSearch
+        }
+    }
+    
+    
+    PlasmaCore.SortFilterModel {
+        id: placesNoDevice
+        sourceModel: placesMaybeSearch
+        filterRole: 'isDevice'
+        filterRegExp: 'false'
+    }
+    
+    PlasmaCore.SortFilterModel {
+        id: placesNoFstabDevice
+        sourceModel: placesMaybeSearch
+        filterRole : 'path'
+        filterCallback:
+            function pasFstab(source_row, value) {
+                var idx = sourceModel.index(source_row, 0);
+                /*return source_row["isDevice"] == "false"
+                    || source_row["setupNeeded"] == "true"
+                    || source_row["fixedDevice"] == "false"
+                    || source_row["path"].substring(0, 7) != "/media/";*/
+                return sourceModel.data(idx, sourceModel.role("isDevice")) == "false"
+                        || sourceModel.data(idx, sourceModel.role("setupNeeded")) == "true"
+                        || sourceModel.data(idx, sourceModel.role("fixedDevice")) == "false"
+                        || sourceModel.data(idx, sourceModel.role("path")).substring(0, 7) == "/media/";
+            }
+    }
+    
+    property var placesMaybeDevice  : {
+        if (showDevices == 1) {
+            return placesNoDevice
+        } else {
+            if (showDevices == 2) {
+                return placesNoFstabDevice
+            } else {
+                return placesMaybeSearch
+            }
+        }
+    }
+
+    
+    property var currentModel: {
+        return placesMaybeDevice
     }
 
     PlasmaExtras.ScrollArea {
