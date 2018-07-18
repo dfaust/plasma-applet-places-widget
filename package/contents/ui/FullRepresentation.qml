@@ -100,22 +100,22 @@ Item {
         filterCallback:
             function pasFstab(source_row, value) {
                 var idx = sourceModel.index(source_row, 0);
-                return source_row["isDevice"] == "false"
+                /*return source_row["isDevice"] == "false"
                     || source_row["setupNeeded"] == "true"
                     || source_row["fixedDevice"] == "false"
-                    || source_row["path"].substring(0, 7) != "/media/";
-                /*return sourceModel.data(idx, sourceModel.role("isDevice")) == "false"
+                    || source_row["path"].substring(0, 7) != "/media/";*/
+                return sourceModel.data(idx, sourceModel.role("isDevice")) == "false"
                         || sourceModel.data(idx, sourceModel.role("setupNeeded")) == "true"
                         || sourceModel.data(idx, sourceModel.role("fixedDevice")) == "false"
-                        || sourceModel.data(idx, sourceModel.role("path")).substring(0, 7) != "/media/";*/
+                        || sourceModel.data(idx, sourceModel.role("path")).substring(0, 7) != "/media/";
             }
     }
     
     property var placesMaybeDevice  : {
-        if (showDevice == 1) {
+        if (showDevices == 1) {
             return placesNoDevice
         } else {
-            if (showDevice == 2) {
+            if (showDevices == 2) {
                 return placesNoFstabDevice
             } else {
                 return placesMaybeSearch
