@@ -107,7 +107,7 @@ Item {
                 return sourceModel.data(idx, sourceModel.role("isDevice")) == "false"
                         || sourceModel.data(idx, sourceModel.role("setupNeeded")) == "true"
                         || sourceModel.data(idx, sourceModel.role("fixedDevice")) == "false"
-                        || sourceModel.data(idx, sourceModel.role("path")).substring(0, 7) != "/media/";
+                        || sourceModel.data(idx, sourceModel.role("path")).substring(0, 7) == "/media/";
             }
     }
     
