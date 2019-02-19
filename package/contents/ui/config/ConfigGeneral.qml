@@ -21,6 +21,8 @@ import QtQuick.Layouts 1.1
 Item {
     property alias cfg_showHidden: showHidden.checked
     property alias cfg_showDevices: showDevices.checked
+    property alias cfg_showTimeline: showTimeline.checked
+    property alias cfg_showSearches: showSearches.checked
     property alias cfg_widgetWidth: widgetWidth.value
 
     property var mediumSpacing: 1.5*units.smallSpacing
@@ -37,6 +39,18 @@ Item {
         CheckBox {
             id: showDevices
             text: i18n('Show devices')
+            Layout.columnSpan: 2
+        }
+
+        CheckBox {
+            id: showTimeline
+            text: i18n('Show timeline')
+            Layout.columnSpan: 2
+        }
+
+        CheckBox {
+            id: showSearches
+            text: i18n('Show searches')
             Layout.columnSpan: 2
         }
 

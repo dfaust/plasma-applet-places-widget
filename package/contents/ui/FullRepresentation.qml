@@ -44,43 +44,38 @@ Item {
         id: placesHiddenFilterModel
         sourceModel: placesSource.models.places
         filterRole: 'hidden'
-        filterRegExp: 'false'
+        filterRegExp: showHidden ? '' : 'false'
     }
 
     PlasmaCore.SortFilterModel {
         id: placesDeviceFilterModel
-        sourceModel: placesSource.models.places
+        sourceModel: placesHiddenFilterModel
         filterRole: 'isDevice'
-        filterRegExp: 'false'
+        filterRegExp: showDevices ? '' : 'false'
     }
 
     PlasmaCore.SortFilterModel {
-        id: placesHiddenDevicesFilterModel
-        sourceModel: placesHiddenFilterModel
-        filterRole: 'isDevice'
-        filterRegExp: 'false'
+        id: placesTimelineFilterModel
+        sourceModel: placesDeviceFilterModel
+        filterRole: 'url'
+        filterRegExp: showTimeline ? '' : '^(?!timeline).+'
     }
 
-    property var currentModel: {
-        if (!showHidden && !showDevices) {
-            return placesHiddenDevicesFilterModel
-        } else if (!showHidden) {
-            return placesHiddenFilterModel
-        } else if (!showDevices) {
-            return placesDeviceFilterModel
-        } else {
-            return placesSource.models.places
-        }
+    PlasmaCore.SortFilterModel {
+        id: placesSearchesFilterModel
+        sourceModel: placesTimelineFilterModel
+        filterRole: 'url'
+        filterRegExp: showSearches ? '' : '^(?!search).+'
     }
 
     PlasmaExtras.ScrollArea {
         anchors.fill: parent
-        
+
         ListView {
             id: listView
             anchors.fill: parent
 
-            model: currentModel
+            model: placesSearchesFilterModel
 
             highlight: PlasmaComponents.Highlight {}
             highlightMoveDuration: 0

@@ -12,6 +12,12 @@
         <entry name="showDevices" type="bool">
             <default>true</default>
         </entry>
+        <entry name="showTimeline" type="bool">
+            <default>true</default>
+        </entry>
+        <entry name="showSearches" type="bool">
+            <default>true</default>
+        </entry>
         <entry name="widgetWidth" type="int">
             <default>250</default>
         </entry>
