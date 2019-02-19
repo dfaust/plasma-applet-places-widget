@@ -55,8 +55,15 @@ Item {
     }
 
     PlasmaCore.SortFilterModel {
-        id: placesTimelineFilterModel
+        id: placesDeviceUrlFilterModel
         sourceModel: placesDeviceFilterModel
+        filterRole: 'url'
+        filterRegExp: showDevices ? '' : '^(?!(mtp|kdeconnect)).+'
+    }
+
+    PlasmaCore.SortFilterModel {
+        id: placesTimelineFilterModel
+        sourceModel: placesDeviceUrlFilterModel
         filterRole: 'url'
         filterRegExp: showTimeline ? '' : '^(?!timeline).+'
     }

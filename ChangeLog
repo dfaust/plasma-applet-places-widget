@@ -1,5 +1,6 @@
 unreleased:
 Add settings to hide timeline and search items
+Hide places with urls beginning with 'kdeconnect' or 'mtp' when devices should be hidden
 
 1.2 (2017.10.28):
 Fix installation on newer KDE versions
