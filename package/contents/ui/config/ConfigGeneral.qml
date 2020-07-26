@@ -44,7 +44,7 @@ Item {
 
         CheckBox {
             id: showTimeline
-            text: i18n('Show timeline')
+            text: i18n('Show recently used')
             Layout.columnSpan: 2
         }
 

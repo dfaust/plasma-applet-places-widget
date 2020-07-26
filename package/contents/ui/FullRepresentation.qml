@@ -65,7 +65,7 @@ Item {
         id: placesTimelineFilterModel
         sourceModel: placesDeviceUrlFilterModel
         filterRole: 'url'
-        filterRegExp: showTimeline ? '' : '^(?!timeline).+'
+        filterRegExp: showTimeline ? '' : '^(?!(timeline|recentlyused)).+'
     }
 
     PlasmaCore.SortFilterModel {
