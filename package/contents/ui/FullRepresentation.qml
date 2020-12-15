@@ -75,6 +75,13 @@ Item {
         filterRegExp: showSearches ? '' : '^(?!search).+'
     }
 
+    PlasmaCore.SortFilterModel {
+        id: placesBlankFilterModel
+        sourceModel: placesSearchesFilterModel
+        filterRole: 'display'
+        filterRegExp: '.+'
+    }
+
     PlasmaExtras.ScrollArea {
         anchors.fill: parent
 
@@ -82,7 +89,7 @@ Item {
             id: listView
             anchors.fill: parent
 
-            model: placesSearchesFilterModel
+            model: placesBlankFilterModel
 
             highlight: PlasmaComponents.Highlight {}
             highlightMoveDuration: 0
