@@ -1,0 +1,25 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "hessijames@gmail.com",
+                "Name": "Daniel Faust"
+            }
+        ],
+        "Category": "Application Launchers",
+        "Description": "Gives access to user places",
+        "Icon": "folder-favorites",
+        "Id": "org.kde.placesWidget",
+        "License": "GPL2",
+        "Name": "Places Widget",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "1.4",
+        "Website": "https://github.com/dfaust/plasma-applet-places-widget"
+    },
+    "X-KDE-ParentApp": "",
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-RemoteLocation": ""
+}
