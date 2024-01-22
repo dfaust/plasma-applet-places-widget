@@ -14,16 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http: //www.gnu.org/licenses/>.
  */
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.plasma.extras 2.0 as PlasmaExtras
+import QtQuick
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import org.kde.kitemmodels as KItemModels
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.plasma.extras as PlasmaExtras
+import org.kde.plasma.plasma5support as Plasma5Support
 
 Item {
-    property real mediumSpacing: 1.5*units.smallSpacing
-    property real textHeight: theme.defaultFont.pixelSize + theme.smallestFont.pixelSize + units.smallSpacing
-    property real itemHeight: Math.max(units.iconSizes.medium, textHeight)
+    property real mediumSpacing: 1.5 * Kirigami.Units.smallSpacing
+    property real textHeight: Kirigami.Theme.defaultFont.pixelSize + Kirigami.Theme.smallFont.pixelSize + Kirigami.Units.smallSpacing
+    property real itemHeight: Math.max(Kirigami.Units.iconSizes.medium, textHeight)
 
     Layout.minimumWidth: widgetWidth
     Layout.minimumHeight: (itemHeight + 2*mediumSpacing) * listView.count
@@ -34,55 +36,55 @@ Item {
     Layout.preferredWidth: Layout.minimumWidth
     Layout.preferredHeight: Layout.minimumHeight
 
-    PlasmaCore.DataSource {
+    Plasma5Support.DataSource {
         id: placesSource
         engine: 'places'
-        connectedSources: 'places'
+        connectedSources: ['places']
     }
 
-    PlasmaCore.SortFilterModel {
+    KItemModels.KSortFilterProxyModel {
         id: placesHiddenFilterModel
         sourceModel: placesSource.models.places
-        filterRole: 'hidden'
-        filterRegExp: showHidden ? '' : 'false'
+        filterRoleName: 'hidden'
+        filterRegularExpression: showHidden ? RegExp('') : RegExp('false')
     }
 
-    PlasmaCore.SortFilterModel {
+    KItemModels.KSortFilterProxyModel {
         id: placesDeviceFilterModel
         sourceModel: placesHiddenFilterModel
-        filterRole: 'isDevice'
-        filterRegExp: showDevices ? '' : 'false'
+        filterRoleName: 'isDevice'
+        filterRegularExpression: showDevices ? RegExp('') : RegExp('false')
     }
 
-    PlasmaCore.SortFilterModel {
+    KItemModels.KSortFilterProxyModel {
         id: placesDeviceUrlFilterModel
         sourceModel: placesDeviceFilterModel
-        filterRole: 'url'
-        filterRegExp: showDevices ? '' : '^(?!(mtp|kdeconnect)).+'
+        filterRoleName: 'url'
+        filterRegularExpression: showDevices ? RegExp('') : RegExp('^(?!(mtp|kdeconnect)).+')
     }
 
-    PlasmaCore.SortFilterModel {
+    KItemModels.KSortFilterProxyModel {
         id: placesTimelineFilterModel
         sourceModel: placesDeviceUrlFilterModel
-        filterRole: 'url'
-        filterRegExp: showTimeline ? '' : '^(?!(timeline|recentlyused)).+'
+        filterRoleName: 'url'
+        filterRegularExpression: showTimeline ? RegExp('') : RegExp('^(?!(timeline|recentlyused)).+')
     }
 
-    PlasmaCore.SortFilterModel {
+    KItemModels.KSortFilterProxyModel {
         id: placesSearchesFilterModel
         sourceModel: placesTimelineFilterModel
-        filterRole: 'url'
-        filterRegExp: showSearches ? '' : '^(?!search).+'
+        filterRoleName: 'url'
+        filterRegularExpression: showSearches ? RegExp('') : RegExp('^(?!search).+')
     }
 
-    PlasmaCore.SortFilterModel {
+    KItemModels.KSortFilterProxyModel {
         id: placesBlankFilterModel
         sourceModel: placesSearchesFilterModel
-        filterRole: 'display'
-        filterRegExp: '.+'
+        filterRoleName: 'display'
+        filterRegularExpression: RegExp('.+')
     }
 
-    PlasmaExtras.ScrollArea {
+    PlasmaComponents.ScrollView {
         anchors.fill: parent
 
         ListView {
@@ -91,7 +93,7 @@ Item {
 
             model: placesBlankFilterModel
 
-            highlight: PlasmaComponents.Highlight {}
+            highlight: PlasmaExtras.Highlight {}
             highlightMoveDuration: 0
             highlightResizeDuration: 0
 
@@ -139,11 +141,11 @@ Item {
                         spacing: mediumSpacing
 
                         Item { // Hack - since setting the dimensions of PlasmaCore.IconItem won't work
-                            height: units.iconSizes.medium
+                            height: Kirigami.Units.iconSizes.medium
                             width: height
                             anchors.verticalCenter: parent.verticalCenter
 
-                            PlasmaCore.IconItem {
+                            Kirigami.Icon {
                                 anchors.fill: parent
                                 source: model['decoration']
                                 active: isHovered
@@ -151,7 +153,7 @@ Item {
                         }
 
                         Column {
-                            width: ejectIcon.visible ? parent.width - units.iconSizes.medium * 1.8 - mediumSpacing : parent.width - units.iconSizes.medium - mediumSpacing
+                            width: ejectIcon.visible ? parent.width - Kirigami.Units.iconSizes.medium * 1.8 - mediumSpacing : parent.width - Kirigami.Units.iconSizes.medium - mediumSpacing
                             height: textHeight
                             spacing: 0
                             anchors.verticalCenter: parent.verticalCenter
@@ -159,30 +161,30 @@ Item {
                             PlasmaComponents.Label {
                                 text: model['display']
                                 width: parent.width
-                                height: theme.defaultFont.pixelSize
+                                height: Kirigami.Theme.defaultFont.pixelSize
                                 elide: Text.ElideRight
                             }
                             Item {
                                 width: 1
-                                height: units.smallSpacing
+                                height: Kirigami.Units.smallSpacing
                             }
                             PlasmaComponents.Label {
                                 text: model['url'].toString().replace('file://', '')
-                                font.pointSize: theme.smallestFont.pointSize
+                                font.pointSize: Kirigami.Theme.smallFont.pointSize
                                 opacity: isHovered ? 1.0 : 0.6
                                 width: parent.width
-                                height: theme.smallestFont.pixelSize
+                                height: Kirigami.Theme.smallFont.pixelSize
                                 elide: Text.ElideRight
 
-                                Behavior on opacity { NumberAnimation { duration: units.shortDuration * 3 } }
+                                Behavior on opacity { NumberAnimation { duration: Kirigami.Units.shortDuration * 3 } }
                             }
                         }
                     }
 
-                    PlasmaCore.IconItem {
+                    Kirigami.Icon {
                         id: ejectIcon
                         source: 'media-eject'
-                        height: units.iconSizes.medium * 0.8
+                        height: Kirigami.Units.iconSizes.medium * 0.8
                         width: height
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter

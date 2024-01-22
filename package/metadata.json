@@ -12,14 +12,11 @@
         "Id": "org.kde.placesWidget",
         "License": "GPL2",
         "Name": "Places Widget",
-        "ServiceTypes": [
-            "Plasma/Applet"
-        ],
         "Version": "1.4",
         "Website": "https://github.com/dfaust/plasma-applet-places-widget"
     },
     "X-KDE-ParentApp": "",
-    "X-Plasma-API": "declarativeappletscript",
-    "X-Plasma-MainScript": "ui/main.qml",
-    "X-Plasma-RemoteLocation": ""
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-RemoteLocation": "",
+    "KPackageStructure": "Plasma/Applet"
 }

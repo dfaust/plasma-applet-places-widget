@@ -6,19 +6,19 @@
     <kcfgfile name=""/>
 
     <group name="General">
-        <entry name="showHidden" type="bool">
+        <entry name="showHidden" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="showDevices" type="bool">
+        <entry name="showDevices" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="showTimeline" type="bool">
+        <entry name="showTimeline" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="showSearches" type="bool">
+        <entry name="showSearches" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="widgetWidth" type="int">
+        <entry name="widgetWidth" type="Int">
             <default>250</default>
         </entry>
     </group>
