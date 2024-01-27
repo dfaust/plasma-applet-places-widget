@@ -190,7 +190,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.rightMargin: mediumSpacing
                         active: isEjectHovered
-                        visible: (model['isDevice'] === true && model['url'] != '' && isHovered)
+                        visible: (model['isDevice'] === true && model['fixedDevice'] === false && model['url'] != '' && isHovered)
 
                         MouseArea {
                             anchors.fill: parent
