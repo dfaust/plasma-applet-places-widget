@@ -60,21 +60,21 @@ Item {
         id: placesDeviceUrlFilterModel
         sourceModel: placesDeviceFilterModel
         filterRoleName: 'url'
-        filterRegularExpression: showDevices ? RegExp('') : RegExp('^(?!(mtp|kdeconnect)).+')
+        filterRegularExpression: showDevices ? RegExp('') : RegExp('^(?!(mtp|kdeconnect)).*')
     }
 
     KItemModels.KSortFilterProxyModel {
         id: placesTimelineFilterModel
         sourceModel: placesDeviceUrlFilterModel
         filterRoleName: 'url'
-        filterRegularExpression: showTimeline ? RegExp('') : RegExp('^(?!(timeline|recentlyused)).+')
+        filterRegularExpression: showTimeline ? RegExp('') : RegExp('^(?!(timeline|recentlyused)).*')
     }
 
     KItemModels.KSortFilterProxyModel {
         id: placesSearchesFilterModel
         sourceModel: placesTimelineFilterModel
         filterRoleName: 'url'
-        filterRegularExpression: showSearches ? RegExp('') : RegExp('^(?!search).+')
+        filterRegularExpression: showSearches ? RegExp('') : RegExp('^(?!search).*')
     }
 
     KItemModels.KSortFilterProxyModel {
