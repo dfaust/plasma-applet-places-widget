@@ -14,57 +14,54 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http: //www.gnu.org/licenses/>.
  */
-import QtQuick 2.2
-import QtQuick.Controls 1.3
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 
-Item {
+Kirigami.FormLayout {
+    id: page
+
     property alias cfg_showHidden: showHidden.checked
     property alias cfg_showDevices: showDevices.checked
     property alias cfg_showTimeline: showTimeline.checked
     property alias cfg_showSearches: showSearches.checked
     property alias cfg_widgetWidth: widgetWidth.value
 
-    property var mediumSpacing: 1.5*units.smallSpacing
+    property var mediumSpacing: 1.5 * Kirigami.Units.smallSpacing
 
-    GridLayout {
-        columns: 2
+    CheckBox {
+        id: showHidden
+        Kirigami.FormData.label: i18n('Places:')
+        text: i18n('Show hidden places')
+        Layout.columnSpan: 2
+    }
 
-        CheckBox {
-            id: showHidden
-            text: i18n('Show hidden places')
-            Layout.columnSpan: 2
-        }
+    CheckBox {
+        id: showDevices
+        text: i18n('Show devices')
+        Layout.columnSpan: 2
+    }
 
-        CheckBox {
-            id: showDevices
-            text: i18n('Show devices')
-            Layout.columnSpan: 2
-        }
+    CheckBox {
+        id: showTimeline
+        text: i18n('Show recently used')
+        Layout.columnSpan: 2
+    }
 
-        CheckBox {
-            id: showTimeline
-            text: i18n('Show recently used')
-            Layout.columnSpan: 2
-        }
+    CheckBox {
+        id: showSearches
+        text: i18n('Show searches')
+        Layout.columnSpan: 2
+    }
 
-        CheckBox {
-            id: showSearches
-            text: i18n('Show searches')
-            Layout.columnSpan: 2
-        }
-
-        Label {
-            text: i18n('Widget width:')
-        }
-
-        SpinBox {
-            id: widgetWidth
-            minimumValue: units.iconSizes.medium + 2*mediumSpacing
-            maximumValue: 1000
-            decimals: 0
-            stepSize: 10
-            suffix: ' px'
-        }
+    SpinBox {
+        id: widgetWidth
+        Kirigami.FormData.label: i18n('Widget width:')
+        from: Kirigami.Units.iconSizes.medium + 2 * mediumSpacing
+        to: 1000
+        stepSize: 10
+        textFromValue: function(value) { return value + ' px'; }
+        valueFromText: function(text) { return Number(text.remove(RegExp(' px$'))); }
     }
 }
